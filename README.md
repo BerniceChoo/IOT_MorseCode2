@@ -52,6 +52,8 @@ the entire message is decoded as usual in decode_ham, but it is then broken down
 unit Testing for encode_ham and decode_ham
 ![unittest](images/testing2.png)
 
+![morsefyiot](images/morsefyiot.png)
+
 ### Task 3
 
 Each of these methods, like worksheet 1, connect to the server. Asynio can be used to execute asynchronous instructions. We establish a connection to port 10102, so that we can get our client id, and then transmit an encoded message.
