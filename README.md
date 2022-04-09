@@ -1,93 +1,112 @@
 # iotworksheet2part2
 
-IoT
-worksheet2 - part 2
+## Part 2
 
-## Getting started
+### Task 1 - Binary Heaps
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Heaps are binary trees in which each parent node has a value equal to or less than any of its offspring. For every k, counting items from zero, this implementation utilises arrays with heap[k]= heap[2*k+1] and heap[k]= heap[2*k+2]. Non-existing items are treated as infinite for the sake of comparison. The fact that a heap's smallest member is always the root, heap[0], is an intriguing trait.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+the Binary Tree are I represented with a list of text, instead of a binary tree.
 
-## Add your files
+    # Binary Heap
+    bheap = ['buffer', 'root', 'E', 'T', 'I', 'A', 'N', 'M', 'S', 'U', 'R', 'W', 'D', 'K', 'G', 'O', 'H', 'V', 'F', None, 'L', None, 'P', 'J', 'B', 'X', 'C', 'Y', 'Z', 'Q',
+    None, None, '5', '4', None, '3', None, None, None, '2', None, None, '+', None, None, None, None, '1', '6', '=', '/', None, None, None, None, None, '7', None, None, None, 
+    '8', None, '9', '0']
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+When using a binary tree to decode, it is necessary to "climb down" the tree by matching the dots and dashes to the given value inside the tree. To do so, a depth first search is employed, which concentrates on the left side of the tree before progressing to the right parts. The binary tree is represented in the heap as a string that virtually functions as a key.
 
-```
-cd existing_repo
-git remote add origin https://gitlab.uwe.ac.uk/c2-foonyee/iotworksheet2part2.git
-git branch -M main
-git push -uf origin main
-```
+unit teststing for task 1
+    # Testing Part 2 Task 1 
+    def test_decode_bt_pass(self):
+       self.assertEqual(binaryheap.decode_bt('..- ...'), 'us')
 
-## Integrate with your tools
+    def test_decode_bt_fail(self):
+        self.assertEqual(binaryheap.decode_bt('... ...'), 'fail')
 
-- [ ] [Set up project integrations](https://gitlab.uwe.ac.uk/c2-foonyee/iotworksheet2part2/-/settings/integrations)
+### Task 2
 
-## Collaborate with your team
+#### encode_ham
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+This code part is a continuation of the original encode. In addition to a sender and recipient, it is meant to encode a message. It simply assembles the receiver, sender, and message in the desired format: receiver de sender =message=(, before encoding and eliminating trailing whitespaces.
 
-## Test and Deploy
+    def encode_ham(sender, receiver, msg):
+        output = receiver + 'de' + sender + '=' + msg + '=('
+        output = encode(output)
+        return output.rstrip()
 
-Use the built-in continuous integration in GitLab.
+#### decode_ham
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+the entire message is decoded as usual in decode_ham, but it is then broken down into three parts to determine which portion of the code represents which part of the message. The receiver of the message.. The sender is usually placed before the first =, whereas the message is placed after the first =.
 
-***
+    def decode_ham(code):
+        output = []
+        code = decode(code)
+        code = code.split('de')
+        receiver = code[0]
+        code = code[1].split('=')
+        output.append(code[0])
+        output.append(receiver)
+        output.append(code[1])
+        return output
 
-# Editing this README
+unit Testing for encode_ham and decode_ham
+        # Testing Part 2 Task 2
+        def test_decode_ham1(self):
+            self.assertEqual(binaryheap.decode_ham('.. --- - -.. . ..-. -.-- -...- ..- ... -...- -.--.'), ['fy', 'iot', 'us'])
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+        def test_decode_ham2(self):
+            self.assertEqual(binaryheap.decode_ham('.-. .---- -.. . ... .---- -...- -.-. .... --- --- -...- -.--.'), ['s2', 'r2', 'choo'])
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+        def test_encode_ham1(self):
+        self.assertEqual(binaryheap.encode_ham('s1', 'r1', 'us'), '.-. .---- -.. . ... .---- -...- ..- ... -...- -.--.')
 
-## Name
-Choose a self-explaining name for your project.
+        def test_encode_ham2(self):
+        self.assertEqual(binaryheap.encode_ham('fy', 'iot', 'us'), '.. --- - -.. . ..-. -.-- -...- ..- ... -...- -.--.')
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+        def test_send_echo(self):
+        self.assertEqual(asyncio.run(binaryheap.send_echo('fy', 'yo')), 'FYDEECHO=YO=(')
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+        def test_send_time(self):
+            now = datetime.now()
+            self.assertEqual(asyncio.run(binaryheap.send_time('s')), 'SDETIME=' + now.strftime("%H:%M:%S") + '=(')
+### Task 3
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Each of these methods, like worksheet 1, connect to the server. Asynio can be used to execute asynchronous instructions. We establish a connection to port 10102, so that we can get our client id, and then transmit an encoded message.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+The result of the functions will be an encoded string. It  decode it and send echo's message of the input, but send time's message is the current time in the format of HH:MM:SS. In order to for unittest to send time, it must use the datetime module rather than a static string to determine the current time.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+    async def send_echo(sender, msg):
+        uri = "ws://localhost:10101"
+        morse = encode_ham(sender, 'echo', msg)
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+        async with websockets.connect(uri) as websocket:
+            # Get Client ID
+            message = json.loads(await websocket.recv())
+            if message['type'] == 'join_evt':
+                client_id = message['client_id'] 
+                print('connected')
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+                await send_message(websocket, client_id, morse)
+                print('sent: ' + morse)
+                response = await recv_message(websocket)
+        response = decode_ham(response)
+        output = response[1] + 'de' + response[0] + '=' + response[2] + '=('
+        return output.upper()
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+    async def send_time(sender):
+        uri = "ws://localhost:10101"
+        morse = encode_ham(sender, 'time', 'hello world')
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+        async with websockets.connect(uri) as websocket:
+            message = json.loads(await websocket.recv())
+            if message['type'] == 'join_evt':
+                client_id = message['client_id'] 
+                print('connected')
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+                await send_message(websocket, client_id, morse)
+                print('sent: ' + morse)
+                response = await recv_message(websocket)
+                print(response)
+        response = decode_ham(response)
+        output = response[1] + 'de' + response[0] + '=' + response[2] + '=('
+        return output.upper()
