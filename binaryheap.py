@@ -237,21 +237,20 @@ async def send_echo(sender, msg):
         message = json.loads(await websocket.recv())
         if message['type'] == 'join_evt':
             client_id = message['client_id'] 
-            #print('connected')
+            print('connected')
 
             await send_message(websocket, client_id, morse)
-            #print('sent: ' + morse)
+            print('sent: ' + morse)
             response = await recv_message(websocket)
     response = decode_ham(response)
     output = response[1] + 'de' + response[0] + '=' + response[2] + '=('
     return output.upper()
 
 async def send_time(sender):
-    uri = "ws://localhost:10102"
+    uri = "ws://localhost:10101"
     morse = encode_ham(sender, 'time', 'hello world')
 
     async with websockets.connect(uri) as websocket:
-        # Get Client ID
         message = json.loads(await websocket.recv())
         if message['type'] == 'join_evt':
             client_id = message['client_id'] 
@@ -260,7 +259,7 @@ async def send_time(sender):
             await send_message(websocket, client_id, morse)
             print('sent: ' + morse)
             response = await recv_message(websocket)
-            #print(response)
+            print(response)
     response = decode_ham(response)
     output = response[1] + 'de' + response[0] + '=' + response[2] + '=('
     return output.upper()
@@ -279,7 +278,7 @@ async def recv_message(websocket):
     message = json.loads(await websocket.recv())
     return message['payload']
 
-#codes for testing in worksheet 2 part 2 (worksheet 2 task 3)
+#codes for testing in worksheet 2 part 1 task 3
 def isEmpty(root):
     if root:
         return False
@@ -333,7 +332,7 @@ def preorderSearch(root, char):
             return True
     return False
 
-# Functions for testing in worksheet 2 Task 3
+# Functions for testing in worksheet 2 part 1 Task 3
 def checkIsEmpty():
     return isEmpty(root)
 
