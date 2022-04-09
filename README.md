@@ -25,7 +25,7 @@ unit teststing for task 1
 
 ### Task 2
 
-#### Encode_ham
+#### encode_ham
 
 This code part is a continuation of the original encode. In addition to a sender and recipient, it is meant to encode a message. It simply assembles the receiver, sender, and message in the desired format: receiver de sender =message=(, before encoding and eliminating trailing whitespaces.
 
@@ -34,7 +34,7 @@ This code part is a continuation of the original encode. In addition to a sender
         output = encode(output)
         return output.rstrip()
 
-#### Decode_ham
+#### decode_ham
 
 the entire message is decoded as usual in decode_ham, but it is then broken down into three parts to determine which portion of the code represents which part of the message. The receiver of the message.. The sender is usually placed before the first =, whereas the message is placed after the first =.
 
@@ -50,7 +50,7 @@ the entire message is decoded as usual in decode_ham, but it is then broken down
         return output
 
 unit Testing for encode_ham and decode_ham
-    # Testing Part 2 Task 2
+        # Testing Part 2 Task 2
         def test_decode_ham1(self):
             self.assertEqual(binaryheap.decode_ham('.. --- - -.. . ..-. -.-- -...- ..- ... -...- -.--.'), ['fy', 'iot', 'us'])
 
