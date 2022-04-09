@@ -50,25 +50,8 @@ the entire message is decoded as usual in decode_ham, but it is then broken down
         return output
 
 unit Testing for encode_ham and decode_ham
-        # Testing Part 2 Task 2
-        def test_decode_ham1(self):
-            self.assertEqual(binaryheap.decode_ham('.. --- - -.. . ..-. -.-- -...- ..- ... -...- -.--.'), ['fy', 'iot', 'us'])
+![unittest](images/testing2.png)
 
-        def test_decode_ham2(self):
-            self.assertEqual(binaryheap.decode_ham('.-. .---- -.. . ... .---- -...- -.-. .... --- --- -...- -.--.'), ['s2', 'r2', 'choo'])
-
-        def test_encode_ham1(self):
-        self.assertEqual(binaryheap.encode_ham('s1', 'r1', 'us'), '.-. .---- -.. . ... .---- -...- ..- ... -...- -.--.')
-
-        def test_encode_ham2(self):
-        self.assertEqual(binaryheap.encode_ham('fy', 'iot', 'us'), '.. --- - -.. . ..-. -.-- -...- ..- ... -...- -.--.')
-
-        def test_send_echo(self):
-        self.assertEqual(asyncio.run(binaryheap.send_echo('fy', 'yo')), 'FYDEECHO=YO=(')
-
-        def test_send_time(self):
-            now = datetime.now()
-            self.assertEqual(asyncio.run(binaryheap.send_time('s')), 'SDETIME=' + now.strftime("%H:%M:%S") + '=(')
 ### Task 3
 
 Each of these methods, like worksheet 1, connect to the server. Asynio can be used to execute asynchronous instructions. We establish a connection to port 10102, so that we can get our client id, and then transmit an encoded message.
